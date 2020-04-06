@@ -13,11 +13,13 @@ import (
 	"github.com/tidwall/gjson"
 
 	"chat/app"
+	"chat/model"
 )
 
 func (a *API) authRouter() http.Handler {
 	r := chi.NewRouter()
-	r.Method("POST", "/login", a.handler(a.Login))
+	r.Method("POST", "/sign_up", a.handler(a.SignUp))
+	r.Method("POST", "/sign_in", a.handler(a.SignIn))
 	r.Method("POST", "/refresh_token", a.handler(a.RefreshToken))
 	return r
 }
@@ -27,7 +29,7 @@ type authInput struct {
 	Password string `json:"password"`
 }
 
-func (a *API) Login(ctx *app.Context, w http.ResponseWriter, r *http.Request) error {
+func (a *API) SignIn(ctx *app.Context, w http.ResponseWriter, r *http.Request) error {
 	var input authInput
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
@@ -38,6 +40,33 @@ func (a *API) Login(ctx *app.Context, w http.ResponseWriter, r *http.Request) er
 		return err
 	}
 
+	userTokens, err := a.App.AuthUser(input.Username, input.Password)
+	if err != nil {
+		return err
+	}
+	json.NewEncoder(w).Encode(userTokens)
+	return nil
+}
+
+func (a *API) SignUp(ctx *app.Context, w http.ResponseWriter, r *http.Request) error {
+	var input authInput
+
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+	if err := json.Unmarshal(body, &input); err != nil {
+		return err
+	}
+
+	user := &model.User{
+		Username: input.Username,
+		Password: input.Password,
+	}
+	if err := ctx.CreateUser(user); err != nil {
+		return err
+	}
 	userTokens, err := a.App.AuthUser(input.Username, input.Password)
 	if err != nil {
 		return err

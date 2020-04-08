@@ -10,8 +10,14 @@ import (
 
 type User struct {
 	Model
-	Username string `json:"username"`
-	Password string `json:"-"`
+	Username string  `json:"username" gorm:"unique;"`
+	Password string  `json:"-"`
+	Friends  []*User `gorm:"many2many:friendships;association_jointable_foreignkey:friend_id"`
+}
+
+type Friendship struct {
+	UserID   uint
+	FriendID uint
 }
 
 type Tokens struct {

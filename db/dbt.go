@@ -1,10 +1,13 @@
 package db
 
-import "chat/model"
+import (
+	"chat/model"
+)
 
 //DatabaseTest struct for testing
 type DatabaseTest struct {
-	User model.User
+	User  model.User
+	Users []model.User
 }
 
 //User methods
@@ -22,8 +25,36 @@ func (db *DatabaseTest) CreateUser(user *model.User) error {
 	return nil
 }
 
-func (db *DatabaseTest) UserExist(username string) bool {
+func (db *DatabaseTest) UserExistByUsername(username string) bool {
 	return true
+}
+
+func (db *DatabaseTest) UserExistByID(username string) bool {
+	return true
+}
+
+func (db *DatabaseTest) AddUserFriend(userID, friendID uint) error {
+	return nil
+}
+
+func (db *DatabaseTest) DeleteUserFriend(userID, friendID uint) error {
+	return nil
+}
+
+func (db *DatabaseTest) FriendshipExist(userID, friendID uint) bool {
+	return true
+}
+
+func (db *DatabaseTest) GetUsers() (*[]model.User, error) {
+	return &db.Users, nil
+}
+
+func (db *DatabaseTest) GetUsersExcept(id uint) (*[]model.User, error) {
+	return &db.Users, nil
+}
+
+func (db *DatabaseTest) GetUserFriends(id uint) (*[]model.User, error) {
+	return &db.Users, nil
 }
 
 //Util methods

@@ -41,9 +41,37 @@ func (ctx *Context) validateUser(c *model.User) *ValidationError {
 func uniqueByUsername(ctx *Context) validation.RuleFunc {
 	return func(value interface{}) error {
 		username, _ := value.(string)
-		if ctx.Database.UserExist(username) {
+		if ctx.Database.UserExistByUsername(username) {
 			return errors.New("already exist user with such username")
 		}
 		return nil
 	}
+}
+
+func (ctx *Context) AddFriendByID(id uint) error {
+	if !ctx.Database.UserExistByID(id) {
+		return errors.New("no such user")
+	}
+
+	userID := ctx.User.ID
+	if ctx.Database.FriendshipExist(userID, id) {
+		return errors.New("friendship already exist")
+	}
+	if userID == id {
+		return errors.New("you can`t add yorself to friends")
+	}
+	return ctx.Database.AddUserFriend(userID, id)
+}
+
+func (ctx *Context) DeleteFriendByID(id uint) error {
+	userID := ctx.User.ID
+	return ctx.Database.DeleteUserFriend(userID, id)
+}
+
+func (ctx *Context) GetUsers() (*[]model.User, error) {
+	return ctx.Database.GetUsersExcept(ctx.User.ID)
+}
+
+func (ctx *Context) GetUserFriends() (*[]model.User, error) {
+	return ctx.Database.GetUserFriends(ctx.User.ID)
 }

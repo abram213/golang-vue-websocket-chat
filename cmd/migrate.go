@@ -24,11 +24,13 @@ var migrateCmd = &cobra.Command{
 			fmt.Println("droping tables...")
 			a.Database.DropTables(
 				&model.User{},
+				&model.Friendship{},
 				&model.Tokens{})
 		}
 
 		a.Database.Migrate(
 			&model.User{},
+			&model.Friendship{},
 			&model.Tokens{})
 		fmt.Println("migration success!")
 		return nil

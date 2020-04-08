@@ -13,7 +13,14 @@ type DataLayer interface {
 	GetUserById(id uint) (*model.User, error)
 	GetUserByUsername(username string) (*model.User, error)
 	CreateUser(user *model.User) error
-	UserExist(username string) bool
+	UserExistByUsername(username string) bool
+	UserExistByID(id uint) bool
+	AddUserFriend(userID, friendID uint) error
+	DeleteUserFriend(userID, friendID uint) error
+	FriendshipExist(userID, friendID uint) bool
+	GetUsers() (*[]model.User, error)
+	GetUsersExcept(id uint) (*[]model.User, error)
+	GetUserFriends(id uint) (*[]model.User, error)
 
 	//Util methods
 	Migrate(values ...interface{})

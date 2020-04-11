@@ -13,6 +13,7 @@ type User struct {
 	Username string  `json:"username" gorm:"unique;"`
 	Password string  `json:"-"`
 	Friends  []*User `gorm:"many2many:friendships;association_jointable_foreignkey:friend_id"`
+	Chats    []*Chat `gorm:"many2many:chat_users;association_autoupdate:false;association_autocreate:false" json:"chats"`
 }
 
 type Friendship struct {

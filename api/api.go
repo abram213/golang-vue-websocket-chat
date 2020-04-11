@@ -46,6 +46,7 @@ func (a *API) Init(r *chi.Mux) {
 	r.Route("/api", func(r chi.Router) {
 		r.Mount("/auth", a.authRouter())
 		r.Mount("/users", a.usersRouter())
+		r.Mount("/chats", a.chatsRouter())
 	})
 }
 

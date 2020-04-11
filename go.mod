@@ -15,6 +15,6 @@ require (
 	github.com/spf13/cobra v0.0.7
 	github.com/spf13/viper v1.6.2
 	github.com/tidwall/gjson v1.6.0
-	golang.org/x/crypto v0.0.0-20200403201458-baeed622b8d8
-	golang.org/x/sys v0.0.0-20200331124033-c3d80250170d
+	golang.org/x/crypto v0.0.0-20200406173513-056763e48d71
+	golang.org/x/sys v0.0.0-20200409092240-59c9f1ba88fa
 )

@@ -25,13 +25,17 @@ var migrateCmd = &cobra.Command{
 			a.Database.DropTables(
 				&model.User{},
 				&model.Friendship{},
-				&model.Tokens{})
+				&model.Tokens{},
+				&model.Chat{},
+				&model.Message{})
 		}
 
 		a.Database.Migrate(
 			&model.User{},
 			&model.Friendship{},
-			&model.Tokens{})
+			&model.Tokens{},
+			&model.Chat{},
+			&model.Message{})
 		fmt.Println("migration success!")
 		return nil
 	},

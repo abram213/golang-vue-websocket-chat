@@ -22,6 +22,13 @@ type DataLayer interface {
 	GetUsersExcept(id uint) (*[]model.User, error)
 	GetUserFriends(id uint) (*[]model.User, error)
 
+	//Chat methods
+	CreateChat(chat *model.Chat) (string, error)
+	GetChatByID(id uint) (*model.Chat, error)
+	GetChatByIdentifier(i string) (*model.Chat, error)
+	GetUserChats(id uint) (*[]model.Chat, error)
+	DeleteChat(id uint) error
+
 	//Util methods
 	Migrate(values ...interface{})
 	DropTables(values ...interface{})

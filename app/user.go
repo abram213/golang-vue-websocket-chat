@@ -30,7 +30,7 @@ func (ctx *Context) GetUserById(id uint) (*model.User, error) {
 
 func (ctx *Context) validateUser(c *model.User) *ValidationError {
 	if err := validation.ValidateStruct(c,
-		validation.Field(&c.Username, validation.Required, validation.Length(5, 50), validation.By(uniqueByUsername(ctx))),
+		validation.Field(&c.Username, validation.Required, validation.Length(5, 30), validation.By(uniqueByUsername(ctx))),
 		validation.Field(&c.Password, validation.Required, validation.Length(8, 30)),
 	); err != nil {
 		return &ValidationError{err.Error()}

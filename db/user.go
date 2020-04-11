@@ -42,8 +42,8 @@ func (db *Database) AddUserFriend(userID, friendID uint) error {
 }
 
 func (db *Database) DeleteUserFriend(userID, friendID uint) error {
-	friendship := model.Friendship{userID, friendID}
-	return errors.Wrap(db.Delete(&friendship).Error, "unable to delete friendship")
+	var friendship model.Friendship
+	return errors.Wrap(db.Where("user_id = ? and friend_id = ?", userID, friendID).Delete(&friendship).Error, "unable to delete friendship")
 }
 
 func (db *Database) GetUsers() (*[]model.User, error) {

@@ -12,7 +12,7 @@ type Chat struct {
 	Identifier string `json:"identifier"`
 	Title    string    `json:"title"`
 	UserID   uint      `json:"user_id"`
-	Messages []Message `json:"messages"`
+	Messages []Message `json:"messages" gorm:"foreignkey:ChatIdentifier;association_foreignkey:Identifier"`
 	Users    []*User   `gorm:"many2many:chat_users;association_autoupdate:false;association_autocreate:false" json:"users"`
 }
 

@@ -12,8 +12,6 @@ func (a *App) GetUserById(id uint) (*model.User, error) {
 	return a.Database.GetUserById(id)
 }
 
-/*  */
-
 func (ctx *Context) CreateUser(u *model.User) error {
 	if err := ctx.validateUser(u); err != nil {
 		return err

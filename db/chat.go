@@ -24,7 +24,7 @@ func (db *Database) GetChatByID(id uint) (*model.Chat, error) {
 
 func (db *Database) GetChatByIdentifier(i string) (*model.Chat, error) {
 	var chat model.Chat
-	pDb := db.Preload("Users").Preload("Messages")
+	pDb := db.Preload("Users").Preload("Messages").Preload("Messages.User")
 	return &chat, errors.Wrap(pDb.Where("identifier = ?", i).First(&chat).Error, "unable to get chat")
 }
 

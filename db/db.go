@@ -29,6 +29,9 @@ type DataLayer interface {
 	GetUserChats(id uint) (*[]model.Chat, error)
 	DeleteChat(id uint) error
 
+	//Message methods
+	CreateMessage(m *model.Message) error
+
 	//Util methods
 	Migrate(values ...interface{})
 	DropTables(values ...interface{})

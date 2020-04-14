@@ -43,6 +43,8 @@ func New(a *app.App) (api *API, err error) {
 }
 
 func (a *API) Init(r *chi.Mux) {
+	r.Method("GET", "/ws", a.handler(a.HandleWSConnection))
+	go HandleMessages()
 	r.Route("/api", func(r chi.Router) {
 		r.Mount("/auth", a.authRouter())
 		r.Mount("/users", a.usersRouter())
@@ -63,7 +65,6 @@ func (a *API) handler(f func(*app.Context, http.ResponseWriter, *http.Request) e
 		}
 
 		ctx := a.App.NewContext().WithRemoteAddress(a.IPAddressForRequest(r))
-		//ctx = ctx.WithLogger(ctx.Logger.WithField("request_id", base64.RawURLEncoding.EncodeToString(model.NewId())))
 
 		if _, claims, ok := TokenFromContext(r.Context()); ok {
 			//check user_id before

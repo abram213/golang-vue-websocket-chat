@@ -22,6 +22,7 @@ type UserResponse struct {
 func (a *API) usersRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Use(TokenAuth(a.App.Auth))
+	r.Method("GET", "/info", a.handler(a.GetUserInfo))
 	r.Method("GET", "/", a.handler(a.GetUsers))
 	r.Route("/{id:^[0-9]*$}", func(r chi.Router) {
 		r.Method("GET", "/", a.handler(a.GetUser))
@@ -91,5 +92,14 @@ func (a *API) GetUserFriends(ctx *app.Context, w http.ResponseWriter, r *http.Re
 		return err
 	}
 	json.NewEncoder(w).Encode(friends)
+	return nil
+}
+
+func (a *API) GetUserInfo(ctx *app.Context, w http.ResponseWriter, r *http.Request) error {
+	user, err := ctx.GetUserById(ctx.User.ID)
+	if err != nil {
+		return err
+	}
+	json.NewEncoder(w).Encode(user)
 	return nil
 }

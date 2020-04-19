@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"runtime/debug"
@@ -11,7 +10,6 @@ import (
 	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 
 	"chat/app"
@@ -43,8 +41,7 @@ func New(a *app.App) (api *API, err error) {
 }
 
 func (a *API) Init(r *chi.Mux) {
-	r.Method("GET", "/ws", a.handler(a.HandleWSConnection))
-	go HandleMessages()
+	r.Mount("/ws", a.wsRouter())
 	r.Route("/api", func(r chi.Router) {
 		r.Mount("/auth", a.authRouter())
 		r.Mount("/users", a.usersRouter())
@@ -150,19 +147,4 @@ func (a *API) IPAddressForRequest(r *http.Request) string {
 		}
 	}
 	return strings.Split(strings.TrimSpace(addr), ":")[0]
-}
-
-func getIDFromRequest(r *http.Request) (uint, error) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	intId, err := strconv.ParseInt(id, 10, 0)
-	if err != nil {
-		return 0, err
-	}
-	if intId == 0 {
-		return 0, errors.New("Id can not be zero")
-	}
-
-	return uint(intId), nil
 }

@@ -11,6 +11,7 @@ type App struct {
 	Config   *Config
 	Database db.DataLayer
 	Auth     *jwtauth.JWTAuth
+	Hub      *Hub
 }
 
 func (a *App) NewContext() *Context {
@@ -37,6 +38,8 @@ func New() (app *App, err error) {
 		return nil, err
 	}
 	app.Auth = jwtauth.New("HS256", []byte(app.Config.APIKey), nil)
+
+	app.Hub = NewHub()
 
 	return app, err
 }

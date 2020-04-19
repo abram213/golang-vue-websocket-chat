@@ -4,6 +4,6 @@ import (
 	"chat/model"
 )
 
-func (ctx *Context) CreateMessage(m *model.Message) error {
-	return ctx.Database.CreateMessage(m)
+func (app *App) CreateMessage(m *model.Message) error {
+	return app.Database.CreateMessage(m)
 }

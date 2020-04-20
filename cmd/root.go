@@ -6,22 +6,16 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"golang.org/x/crypto/ssh/terminal"
-	"golang.org/x/sys/unix"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "Chat",
 	Short: "Chat Web Application",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if !terminal.IsTerminal(unix.Stdout) {
-			logrus.SetFormatter(&logrus.JSONFormatter{})
-		} else {
-			logrus.SetFormatter(&logrus.TextFormatter{
-				FullTimestamp:   true,
-				TimestampFormat: time.RFC3339Nano,
-			})
-		}
+		logrus.SetFormatter(&logrus.TextFormatter{
+			FullTimestamp:   true,
+			TimestampFormat: time.RFC3339Nano,
+		})
 		if verbose, _ := cmd.Flags().GetBool("verbose"); verbose {
 			logrus.SetLevel(logrus.DebugLevel)
 		}

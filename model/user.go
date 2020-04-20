@@ -46,7 +46,7 @@ func (u *User) PasswordIsValid(password string) bool {
 func (u *User) RefreshTokens(tokenAuth *jwtauth.JWTAuth) (*Tokens, error) {
 	//set access claims
 	accessClaims := jwt.MapClaims{"user_id": u.ID}
-	accessExpInTime := time.Now().Add(time.Minute * 60)
+	accessExpInTime := time.Now().Add(time.Hour * 12)
 	jwtauth.SetExpiry(accessClaims, accessExpInTime)
 
 	//set refresh claims

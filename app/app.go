@@ -56,18 +56,8 @@ func (e *ValidationError) Error() string {
 	return e.Message
 }
 
-type UserError struct {
-	Message    string `json:"message"`
-	StatusCode int    `json:"-"`
-}
-
-func (e *UserError) Error() string {
-	return e.Message
-}
-
 type AuthError struct {
 	Message string `json:"message"`
-	Code    uint   `json:"code"`
 }
 
 func (e *AuthError) Error() string {

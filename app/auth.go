@@ -11,14 +11,10 @@ import (
 )
 
 func (app *App) AuthUser(username, password string) (*model.Tokens, error) {
-	user, err := app.Database.GetUserByUsername(username)
+	user, err := app.usernamePassMatch(username, password)
 	if err != nil {
 		return nil, err
 	}
-	if !user.PasswordIsValid(password) {
-		return nil, errors.New("password is not valid")
-	}
-
 	return user.RefreshTokens(app.Auth)
 }
 
@@ -44,4 +40,15 @@ func (app *App) AuthUserByToken(token *jwt.Token) (*model.Tokens, error) {
 	}
 
 	return user.RefreshTokens(app.Auth)
+}
+
+func (app *App) usernamePassMatch(username, password string) (*model.User, *AuthError) {
+	user, err := app.Database.GetUserByUsername(username)
+	if err != nil {
+		return nil, &AuthError{err.Error()}
+	}
+	if !user.PasswordIsValid(password) {
+		return nil, &AuthError{"password is not valid"}
+	}
+	return user, nil
 }

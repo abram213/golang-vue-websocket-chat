@@ -41,6 +41,7 @@ func New(a *app.App) (api *API, err error) {
 }
 
 func (a *API) Init(r *chi.Mux) {
+	serveFiles(r, "/")
 	r.Mount("/ws", a.wsRouter())
 	r.Route("/api", func(r chi.Router) {
 		r.Mount("/auth", a.authRouter())
@@ -114,10 +115,10 @@ func (a *API) handler(f func(*app.Context, http.ResponseWriter, *http.Request) e
 					ctx.Logger.Error(err)
 					http.Error(w, "internal server error", http.StatusInternalServerError)
 				}
-			} else if uerr, ok := err.(*app.UserError); ok {
+			} else if uerr, ok := err.(*app.AuthError); ok {
 				data, err := json.Marshal(uerr)
 				if err == nil {
-					w.WriteHeader(uerr.StatusCode)
+					w.WriteHeader(http.StatusUnauthorized)
 					_, err = w.Write(data)
 				}
 

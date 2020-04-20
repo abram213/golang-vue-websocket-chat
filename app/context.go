@@ -1,8 +1,6 @@
 package app
 
 import (
-	"net/http"
-
 	"github.com/sirupsen/logrus"
 
 	"chat/db"
@@ -26,10 +24,6 @@ func (ctx *Context) WithRemoteAddress(address string) *Context {
 	ret := *ctx
 	ret.RemoteAddress = address
 	return &ret
-}
-
-func (ctx *Context) AuthorizationError() *UserError {
-	return &UserError{Message: "unauthorized", StatusCode: http.StatusForbidden}
 }
 
 func (ctx *Context) WithUser(user *model.User) *Context {

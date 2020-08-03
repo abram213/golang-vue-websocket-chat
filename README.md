@@ -33,12 +33,12 @@ Check that you have installed:
 
 ## App screenshots
 <p>
-  <img src="/screenshots/sign_in.png" alt="SignIn" width="400" hspace="15">
-  <img src="/screenshots/new_chat.png" alt="New chat" width="400" hspace="15">
+  <img src="/screenshots/sign_in.png" alt="SignIn" width="400" hspace="10">
+  <img src="/screenshots/new_chat.png" alt="New chat" width="400" hspace="10">
 </p>
 <p>
-  <img src="/screenshots/chats.png" alt="Chats" width="400" hspace="15">
-  <img src="/screenshots/friends.png" alt="Friends" width="400" hspace="15">
+  <img src="/screenshots/chats.png" alt="Chats" width="400" hspace="10">
+  <img src="/screenshots/friends.png" alt="Friends" width="400" hspace="10">
 </p>
 
 ## Built With

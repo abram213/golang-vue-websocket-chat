@@ -32,14 +32,10 @@ Check that you have installed:
 7. Open http://localhost:4545 in your browser.
 
 ## App screenshots
-<p>
-  <img src="/screenshots/sign_in.png" alt="SignIn" width="400" hspace="10">
-  <img src="/screenshots/new_chat.png" alt="New chat" width="400" hspace="10">
-</p>
-<p>
-  <img src="/screenshots/chats.png" alt="Chats" width="400" hspace="10">
-  <img src="/screenshots/friends.png" alt="Friends" width="400" hspace="10">
-</p>
+|||
+| --- | --- |
+|![SignIn](screenshots/sign_in.png?raw=true) Sign In|![New chat](screenshots/new_chat.png?raw=true) New chat|
+|![Chats](screenshots/chats.png?raw=true) Chats|![Friends](screenshots/friends.png?raw=true) Friends|
 
 ## Built With
 

@@ -4,7 +4,6 @@ import (
 	"chat/db"
 
 	"github.com/go-chi/jwtauth"
-	"github.com/sirupsen/logrus"
 )
 
 type App struct {
@@ -16,7 +15,7 @@ type App struct {
 
 func (a *App) NewContext() *Context {
 	return &Context{
-		Logger:   logrus.StandardLogger(),
+		//Logger:   logrus.StandardLogger(),
 		Database: a.Database,
 	}
 }

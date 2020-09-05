@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/rs/cors"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"chat/api"
@@ -31,21 +31,21 @@ func serveAPI(ctx context.Context, api *api.API) {
 	s := &http.Server{
 		Addr:        fmt.Sprintf(":%d", api.Config.Port),
 		Handler:     cors.Handler(router),
-		ReadTimeout: 2 * time.Minute,
+		ReadTimeout: 60 * time.Second,
 	}
 
 	done := make(chan struct{})
 	go func() {
 		<-ctx.Done()
 		if err := s.Shutdown(context.Background()); err != nil {
-			logrus.Error(err)
+			log.Fatalln(err)
 		}
 		close(done)
 	}()
 
-	logrus.Infof("serving api at http://127.0.0.1:%d", api.Config.Port)
+	log.Printf("serving api at http://127.0.0.1:%d", api.Config.Port)
 	if err := s.ListenAndServe(); err != http.ErrServerClosed {
-		logrus.Error(err)
+		log.Fatalln(err)
 	}
 	<-done
 }
@@ -71,8 +71,8 @@ var serveCmd = &cobra.Command{
 			ch := make(chan os.Signal, 1)
 			signal.Notify(ch, os.Interrupt)
 			<-ch
-			logrus.Info("signal caught. shutting down...")
 			cancel()
+			log.Fatalln("signal caught. shutting down...")
 		}()
 
 		var wg sync.WaitGroup

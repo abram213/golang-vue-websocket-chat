@@ -1,30 +1,30 @@
 package cmd
 
 import (
-	"time"
-
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"log"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "Chat",
 	Short: "Chat Web Application",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		logrus.SetFormatter(&logrus.TextFormatter{
+		/*logrus.SetFormatter(&logrus.TextFormatter{
 			FullTimestamp:   true,
 			TimestampFormat: time.RFC3339Nano,
-		})
-		if verbose, _ := cmd.Flags().GetBool("verbose"); verbose {
+		})*/
+		/*if verbose, _ := cmd.Flags().GetBool("verbose"); verbose {
 			logrus.SetLevel(logrus.DebugLevel)
-		}
+		}*/
 	},
 }
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		logrus.Fatal(err)
+		log.Fatalln(err)
+		//logrus.Fatal(err)
 	}
 }
 
@@ -32,7 +32,7 @@ var configFile string
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "make output more verbose")
+	//rootCmd.PersistentFlags().BoolP("verbose", "v", false, "make output more verbose")
 	rootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is config.example.yaml)")
 }
 

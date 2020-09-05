@@ -52,12 +52,14 @@ func (ctx *Context) AddFriendByID(id uint) error {
 	}
 
 	userID := ctx.User.ID
+	if userID == id {
+		return errors.New("you can`t add yourself to friends")
+	}
+
 	if ctx.Database.FriendshipExist(userID, id) {
 		return errors.New("friendship already exist")
 	}
-	if userID == id {
-		return errors.New("you can`t add yorself to friends")
-	}
+
 	return ctx.Database.AddUserFriend(userID, id)
 }
 

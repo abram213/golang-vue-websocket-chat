@@ -89,7 +89,8 @@ func (a *API) RefreshToken(ctx *app.Context, w http.ResponseWriter, r *http.Requ
 	return nil
 }
 
-//TokenAuth route middleware. Receives JWT token from header, verify, validate and pass it to context
+// TokenAuth route middleware. Receives JWT token from header,
+// verify, validate and pass it to context
 func TokenAuth(ja *jwtauth.JWTAuth) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		hfunc := func(w http.ResponseWriter, r *http.Request) {
@@ -112,7 +113,8 @@ func TokenAuth(ja *jwtauth.JWTAuth) func(http.Handler) http.Handler {
 	}
 }
 
-//TokenFromContext get token from context. return token, claims and claimsOk if token isn`t nil and claims is valid
+// TokenFromContext get token from context. return token, claims
+// and claimsOk if token isn`t nil and claims is valid
 func TokenFromContext(ctx context.Context) (*jwt.Token, jwt.MapClaims, bool) {
 	token, _ := ctx.Value(jwtauth.TokenCtxKey).(*jwt.Token)
 
@@ -131,8 +133,8 @@ func TokenFromContext(ctx context.Context) (*jwt.Token, jwt.MapClaims, bool) {
 	return token, claims, claimsOk
 }
 
-// TokenFromRequestBody tries to retreive the token string from the "jwt"
-// request body.
+// TokenFromRequestBody tries to retrieve the token string from the
+// "jwt" request body
 func TokenFromRequestBody(r *http.Request) string {
 	body, _ := ioutil.ReadAll(r.Body)
 	return gjson.Get(string(body), "jwt").Str

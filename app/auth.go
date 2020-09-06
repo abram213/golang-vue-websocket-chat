@@ -24,19 +24,19 @@ func (app *App) AuthUserByToken(token *jwt.Token) (*model.Tokens, error) {
 		if tokenClaims, ok := token.Claims.(jwt.MapClaims); ok {
 			claims = tokenClaims
 		} else {
-			panic(fmt.Sprintf("jwtauth: unknown type of Claims: %T", token.Claims))
+			return nil, fmt.Errorf("jwtauth: unknown type of Claims: %T", token.Claims)
 		}
 	} else {
 		return nil, errors.New("token == nil")
 	}
 
-	userID, err := strconv.Atoi(fmt.Sprintf("%v", claims["user_id"]))
+	userID, err := strconv.Atoi(fmt.Sprintf("%s", claims["user_id"]))
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("bad user_id, err: %v", err))
+		return nil, fmt.Errorf("bad user_id, err: %v", err)
 	}
 	user, err := app.GetUserById(uint(userID))
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("problem with user, err: %v", err))
+		return nil, fmt.Errorf("problem with user, err: %v", err)
 	}
 
 	return user.RefreshTokens(app.Auth)

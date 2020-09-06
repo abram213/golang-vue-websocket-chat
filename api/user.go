@@ -10,11 +10,6 @@ import (
 	"github.com/go-chi/chi"
 )
 
-type userInput struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 type UserResponse struct {
 	ID uint `json:"id"`
 }

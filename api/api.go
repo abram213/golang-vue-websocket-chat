@@ -13,15 +13,14 @@ import (
 )
 
 type API struct {
-	App    *app.App
-	Config *Config
+	App  *app.App
+	Port int
 }
 
-func New(a *app.App) (api *API, err error) {
-	api = &API{App: a}
-	api.Config, err = InitConfig()
-	if err != nil {
-		return nil, err
+func New(a *app.App, port int) (api *API, err error) {
+	api = &API{
+		App:  a,
+		Port: port,
 	}
 	return api, nil
 }
@@ -45,7 +44,7 @@ func (a *API) handler(f func(*app.Context, http.ResponseWriter, *http.Request) e
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(w, r.Body, 100*1024*1024)
 
-		ctx := a.App.NewContext() //.WithRemoteAddress(a.IPAddressForRequest(r))
+		ctx := a.App.NewContext()
 
 		if _, claims, ok := TokenFromContext(r.Context()); ok {
 			//check user_id before

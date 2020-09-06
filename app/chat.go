@@ -2,8 +2,7 @@ package app
 
 import (
 	"chat/model"
-	"errors"
-	"strconv"
+	"fmt"
 	"strings"
 )
 
@@ -11,7 +10,7 @@ func (ctx *Context) CreateChat(c *model.Chat) (string, error) {
 	var usernames []string
 	for _, user := range c.Users {
 		if !ctx.Database.UserExistByID(user.ID) {
-			return "", errors.New("no user with id: " + strconv.Itoa(int(user.ID)))
+			return "", fmt.Errorf("no user with id: %v", user.ID)
 		}
 		usernames = append(usernames, user.Username)
 	}

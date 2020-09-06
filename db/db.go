@@ -2,7 +2,6 @@ package db
 
 import (
 	"chat/model"
-
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/pkg/errors"
@@ -42,8 +41,8 @@ type Database struct {
 	*gorm.DB
 }
 
-func New(config *Config) (*Database, error) {
-	db, err := gorm.Open("sqlite3", config.DatabaseURI)
+func New(dbURI string) (*Database, error) {
+	db, err := gorm.Open("sqlite3", dbURI)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to connect to database")
 	}

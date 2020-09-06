@@ -1,7 +1,0 @@
-#App settings
-SecretKey: "secret"
-DatabaseURI: "test.db"
-
-#Api settings
-APIKey: "test"
-Port: 4545

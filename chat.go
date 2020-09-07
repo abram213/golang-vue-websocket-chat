@@ -18,12 +18,12 @@ import (
 )
 
 var (
-	port = flag.Int("port", 4545, "The port to bind the web application server to")
+	port = flag.Int("port", 8080, "The port to bind the web application server to")
 
 	dbURI   = flag.String("db_uri", "test.db", "Path to database file")
 	envPath = flag.String("env_path", "config.env", "Path to .env file with config")
 
-	migrate = flag.Bool("migrate", false, "Run db migration before app start")
+	migrate = flag.Bool("migrate", false, "Run db migration")
 	refresh = flag.Bool("refresh", false, "Drop all tables before migration")
 )
 
@@ -48,6 +48,7 @@ func main() {
 			&model.Tokens{},
 			&model.Chat{},
 			&model.Message{})
+		//os.Exit(0)
 	}
 
 	api, err := api.New(app, config.Port)

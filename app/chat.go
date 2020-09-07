@@ -7,14 +7,14 @@ import (
 )
 
 func (ctx *Context) CreateChat(c *model.Chat) (string, error) {
-	var usernames []string
-	for _, user := range c.Users {
-		if !ctx.Database.UserExistByID(user.ID) {
-			return "", fmt.Errorf("no user with id: %v", user.ID)
-		}
-		usernames = append(usernames, user.Username)
-	}
 	if c.Title == "" {
+		usernames := make([]string, 0)
+		for _, user := range c.Users {
+			if !ctx.Database.UserExistByID(user.ID) {
+				return "", fmt.Errorf("no user with id: %v", user.ID)
+			}
+			usernames = append(usernames, user.Username)
+		}
 		if len(usernames) > 3 {
 			usernames = usernames[:3]
 		}

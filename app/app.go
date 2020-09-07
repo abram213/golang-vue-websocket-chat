@@ -44,10 +44,10 @@ func (a *App) Close() error {
 func (a *App) MigrateDB(refresh bool, values ...interface{}) {
 	if refresh {
 		fmt.Println("dropping tables...")
-		a.Database.DropTables(values)
+		a.Database.DropTables(values...)
 	}
 
-	a.Database.Migrate(values)
+	a.Database.Migrate(values...)
 	fmt.Println("migration success!")
 }
 

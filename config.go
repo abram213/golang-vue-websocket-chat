@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"os"
+	"path/filepath"
 )
 
 type Config struct {
@@ -18,8 +19,13 @@ type Config struct {
 }
 
 func InitConfig(dbURI string, port int, envPath string) (*Config, error) {
+	workDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		return nil, fmt.Errorf("can`t find wokr dir, err: %v", err)
+	}
+	envPath = filepath.Join(workDir, envPath)
 	if err := godotenv.Load(envPath); err != nil {
-		return nil, fmt.Errorf("no %s file found", envPath)
+		return nil, fmt.Errorf("no %s file found, err: %v", envPath, err)
 	}
 
 	config := &Config{
